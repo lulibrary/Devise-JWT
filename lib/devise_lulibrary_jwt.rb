@@ -6,7 +6,26 @@ require 'devise_lulibrary_jwt/model'
 
 module Devise
 
+  mattr_accessor :jwt_secret
+  @@jwt_secret = nil
 
+  mattr_accessor :jwt_issuer
+  @@jwt_issuer = nil
+
+  mattr_accessor :jwt_audience
+  @@jwt_audience = nil
+
+  mattr_accessor :verify_aud
+  @@verify_aud = true
+
+  mattr_accessor :verify_iss
+  @@verify_iss = true
+
+  mattr_accessor :verify_iat
+  @@verify_iat = true
+
+  mattr_accessor :find_or_create_on_auth
+  @@find_or_create_on_auth = :find
 
 end
 

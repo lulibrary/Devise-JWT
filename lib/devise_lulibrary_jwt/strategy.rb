@@ -51,10 +51,10 @@ module Devise
 
       def decode_jwt
 
-        secret = ""
+        secret = ::Devise.jwt_secret
 
         begin
-          decoded_token = JWT.decode jwt, secret, true, { :verify_iat => true, :iss => "lulibrary-cosign", :verify_iss => true, :aud => "digitisationdev", :verify_aud => true, :algorithm => 'HS256'}
+          decoded_token = JWT.decode jwt, secret, true, { :verify_iat => ::Devise.verify_iat, :iss => ::Devise.jwt_issuer, :verify_iss => ::Devise.verify_iss, :aud => ::Devise.jwt_audience, :verify_aud => ::Devise.verify_aud, :algorithm => 'HS256'}
         rescue JWT::ExpiredSignature
           Rails.logger.info('Expired Signature')
           return nil
@@ -77,10 +77,10 @@ module Devise
       end
 
       def valid_jwt?
-        secret = ""
+        secret = ::Devise.jwt_secret
 
         begin
-          decoded_token = JWT.decode jwt, secret, true, { :verify_iat => true, :iss => "lulibrary-cosign", :verify_iss => true, :aud => "digitisationdev", :verify_aud => true, :algorithm => 'HS256'}
+          decoded_token = JWT.decode jwt, secret, true, { :verify_iat => ::Devise.verify_iat, :iss => ::Devise.jwt_issuer, :verify_iss => ::Devise.verify_iss, :aud => ::Devise.jwt_audience, :verify_aud => ::Devise.verify_aud, :algorithm => 'HS256'}
         rescue JWT::ExpiredSignature
           Rails.logger.info('Expired Signature')
           return false
