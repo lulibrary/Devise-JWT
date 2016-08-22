@@ -25,7 +25,7 @@ module Devise
   @@verify_iat = true
 
   mattr_accessor :jwt_create_user
-  @@find_or_create_on_auth = true
+  @@jwt_create_user = true
 
 end
 
