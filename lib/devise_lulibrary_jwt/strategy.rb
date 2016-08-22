@@ -15,13 +15,21 @@ module Devise
 
         if validate(resource) { valid_jwt? }
           if decode_jwt.nil?
-            fail!(:invalid_user)
+            fail!(:invalid_jwt)
           else
-            resource = mapping.to.find_or_create_from_jwt_hash jwt_claims
+
+            resource = mapping.to.find_for_jwt_authentication jwt_claims
+
+            if resource.nil?
+              return fail!(:invalid_user)
+            end
+
             if resource.persisted?
               return success!(resource)
             end
+
             fail!(:invalid_user)
+
           end
         end
 
