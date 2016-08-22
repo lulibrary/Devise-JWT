@@ -7,13 +7,30 @@ module Devise
 
       module ClassMethods
 
-        def find_or_create_from_jwt_hash jwt
+        Devise::Models.config(self, :jwt_create_user)
+
+        def find_for_jwt_authentication jwt_claims
 
           auth_params = {}
 
-          jwt_keymap.each_pair { |k,v| auth_params[v] = jwt[k] }
+          jwt_keymap.each_pair { |k,v| auth_params[v] = jwt_claims[k] }
 
-          where(username: auth_params["username"]).first_or_create auth_params
+          auth_key = self.authentication_keys.first.to_s
+          auth_key_value = auth_params[auth_key]
+
+          return nil unless auth_key_value.present?
+
+          resource = where(auth_key => auth_key_value).first
+
+          if resource.blank?
+            resource = new(auth_params)
+          end
+
+          if self.jwt_create_user && resource.new_record?
+            resource.save!
+          end
+
+          resource
 
         end
 
