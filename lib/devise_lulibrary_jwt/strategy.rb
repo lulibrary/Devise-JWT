@@ -17,7 +17,7 @@ module Devise
           if decode_jwt.nil?
             fail!(:invalid_user)
           else
-            resource = mapping.to.find_or_create_from_jwt_hash decode_jwt
+            resource = mapping.to.find_or_create_from_jwt_hash jwt_claims
             if resource.persisted?
               return success!(resource)
             end
@@ -49,6 +49,18 @@ module Devise
 
       end
 
+      def jwt_claims
+
+        jwt = decode_jwt
+
+        if jwt.nil?
+          nil
+        else
+          jwt[0]
+        end
+
+      end
+
       def decode_jwt
 
         secret = ::Devise.jwt_secret
@@ -72,33 +84,18 @@ module Devise
           return nil
         end
 
-        decoded_token[0]
+        decoded_token
 
       end
 
       def valid_jwt?
-        secret = ::Devise.jwt_secret
 
-        begin
-          decoded_token = JWT.decode jwt, secret, true, { :verify_iat => ::Devise.verify_iat, :iss => ::Devise.jwt_issuer, :verify_iss => ::Devise.verify_iss, :aud => ::Devise.jwt_audience, :verify_aud => ::Devise.verify_aud, :algorithm => 'HS256'}
-        rescue JWT::ExpiredSignature
-          Rails.logger.info('Expired Signature')
-          return false
-        rescue JWT::InvalidIssuerError
-          Rails.logger.info('Invalid Issuer Error')
-          return false
-        rescue JWT::InvalidAudError
-          Rails.logger.info('Invalid Audience')
-          return false
-        rescue JWT::InvalidIatError
-          Rails.logger.info('Invalid issued at')
-          return false
-        rescue JWT::VerificationError
-          Rails.logger.info('Signature Verification error')
-          return false
+        if decode_jwt.nil?
+          return nil
         end
 
         true
+
       end
 
     end
