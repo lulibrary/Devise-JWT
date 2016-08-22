@@ -6,12 +6,12 @@ require 'devise_lulibrary_jwt/version'
 Gem::Specification.new do |spec|
   spec.name          = "devise_lulibrary_jwt"
   spec.version       = DeviseLulibraryJwt::VERSION
-  spec.authors       = ["Stephen Robinson"]
-  spec.email         = ["stephen@stephen-robinson.co.uk"]
+  spec.authors       = ["Stephen Robinson", "LULibrary"]
+  spec.email         = ["library.dit@lancaster.ac.uk"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = "Devise extension to allow authentication using JWT"
+  spec.description   = spec.summary
+  spec.homepage      = "https://github.com/lulibrary/Devise-JWT"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -26,6 +26,9 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+
+  spec.add_dependency "devise", ">= 4.2.0"
+  spec.add_dependency "jwt", ">= 1.5.4"
 
   spec.add_development_dependency "bundler", "~> 1.12"
   spec.add_development_dependency "rake", "~> 10.0"
