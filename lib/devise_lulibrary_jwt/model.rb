@@ -7,7 +7,7 @@ module Devise
 
       module ClassMethods
 
-        Devise::Models.config(self, :jwt_create_user)
+        Devise::Models.config(self, :jwt_create_user, :jwt_secret, :jwt_issuer, :jwt_audience, :verify_aud, :verify_iss, :verify_iat)
 
         def find_for_jwt_authentication jwt_claims
 
