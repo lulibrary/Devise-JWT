@@ -29,4 +29,4 @@ module Devise
 
 end
 
-Devise.add_module(:jwt_authenticatable, strategy: true, model: 'devise_lulibrary_jwt/model')
+Devise.add_module(:jwt_authenticatable, strategy: true, model: 'devise_lulibrary_jwt/model', controller: :sessions, route: :session)
