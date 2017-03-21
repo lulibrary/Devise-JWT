@@ -80,6 +80,10 @@ module Devise
         jwt_issuer = resource.jwt_issuer || ::Devise.jwt_issuer
         jwt_audience = resource.jwt_audience || ::Devise.jwt_audience
 
+        verify_iat = verify_iat.to_s.eql?('true') ? true : false
+        verify_aud = verify_aud.to_s.eql?('true') ? true : false
+        verify_iss = verify_iss.to_s.eql?('true') ? true : false
+
         begin
           decoded_token = JWT.decode jwt, jwt_secret, true, { :verify_iat => verify_iat, :iss => jwt_issuer, :verify_iss => verify_iss, :aud => jwt_audience, :verify_aud => verify_aud, :algorithm => 'HS256'}
         rescue JWT::ExpiredSignature
