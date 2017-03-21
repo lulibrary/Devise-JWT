@@ -74,7 +74,7 @@ module Devise
         resource = mapping.to
 
         verify_iat = resource.verify_iat.nil? ? ::Devise.verify_iat : resource.verify_iat
-        verify_aud = resource.verify_iat.nil? ? ::Devise.verify_iat : resource.verify_iat
+        verify_aud = resource.verify_aud.nil? ? ::Devise.verify_aud : resource.verify_aud
         verify_iss = resource.verify_iss.nil? ? ::Devise.verify_iss : resource.verify_iss
         jwt_secret = resource.jwt_secret || ::Devise.jwt_secret
         jwt_issuer = resource.jwt_issuer || ::Devise.jwt_issuer
